@@ -1,11 +1,11 @@
 import React from 'react'
 import './App.css'
-import Add from './containers/Add'
+import AddExpense from './containers/AddExpense'
 import ExpensesList from './components/ExpensesList';
 
 const App = () => (
   <div className="App">
-    <Add />
+    <AddExpense />
     <ExpensesList/>
   </div>
 )

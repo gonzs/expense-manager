@@ -11,4 +11,4 @@ const expense = (category, text, value) => {
         value
     }
 }
-export { expense }
+export {expense} 
