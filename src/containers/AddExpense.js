@@ -36,7 +36,7 @@ const Add = ({ dispatch }) => {
 
                 <Select placeholder='Select category' options={categoryOptions} onChange={getCategory} />
                 <Input placeholder='Description...' ref={node => { text = node }} />
-                <Input type='number' placeholder='Value...' ref={node => { value = node }} />
+                <Input type='number' step=".01" placeholder='Value...' ref={node => { value = node }} />
 
                 <Button type='submit'><Icon name='add' /></Button>
             </Form>
