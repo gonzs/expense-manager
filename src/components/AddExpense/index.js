@@ -1,11 +1,10 @@
 import React from 'react'
-import { expense } from '../actions'
-import { connect } from 'react-redux'
 import { Form, Input, Button, Icon, Select } from 'semantic-ui-react'
+import PropTypes from 'prop-types'
 
 const categoryOptions = [{ key: 'IN', value: 'IN', text: 'Income' }, { key: 'EX', value: 'EX', text: 'Expense' }]
 
-const Add = ({ dispatch }) => {
+const AddExpense = ({ onAddExpense }) => {
 
     let text
     let value
@@ -28,22 +27,23 @@ const Add = ({ dispatch }) => {
                 if (!category.trim())
                     return
 
-                dispatch(expense(category, text.inputRef.value, value.inputRef.value))
+                onAddExpense(category, text.inputRef.value, parseInt(value.inputRef.value))
                 text.inputRef.value = ''
                 value.inputRef.value = ''
             }}
             >
-
                 <Select placeholder='Select category' options={categoryOptions} onChange={getCategory} />
                 <Input placeholder='Description...' ref={node => { text = node }} />
                 <Input type='number' step=".01" placeholder='Value...' ref={node => { value = node }} />
 
                 <Button type='submit'><Icon name='add' /></Button>
             </Form>
-        </div>
+        </div >
     )
 }
 
-const AddExpense = connect()(Add)
+AddExpense.propTypes = {
+    onAddExpense: PropTypes.func.isRequired,
+}
 
 export default AddExpense

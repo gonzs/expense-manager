@@ -1,14 +1,14 @@
 export const EXPENSE = 'EXPENSE'
 
-let nextId = 0
+let nextId = 3
 
-const expense = (category, text, value) => {
+const addExpense = (category, text, value) => {
     return {
         type: EXPENSE,
         id: nextId++,
         category,
         text,
-        value
+        value,
     }
 }
-export {expense} 
+export default addExpense
