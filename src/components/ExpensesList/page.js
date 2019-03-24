@@ -39,7 +39,7 @@ const Page = ({ expenses, onAddExpense, goTo }) => {
                             <Table.Row key={expense.id}
                                 positive={incomeType}
                                 negative={expenseType}
-                                onClick={() => goTo(`/expense/${expense.id}`)}
+                                onClick={() => goTo(`/expenses/${expense.id}`)}
                             >
                                 <Table.Cell>{expense.category}</Table.Cell>
                                 <Table.Cell>{expense.text}</Table.Cell>

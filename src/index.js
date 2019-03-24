@@ -11,8 +11,8 @@ const Root = (
     <Provider store={store}>
         <BrowserRouter>
             <Switch>
+                <Route path="/expenses/:itemId" component={ExpenseDetail} />
                 <Route path="/expenses" component={ExpensesList} />
-                <Route path="/expense/:itemId" component={ExpenseDetail} />
                 <Redirect from="" to="/expenses" />
             </Switch>
         </BrowserRouter>
