@@ -1,13 +1,13 @@
-
-import { createStore, combineReducers } from 'redux'
-import expenses from './expenses'
-import currentExpense from './currentExpense'
+import { createStore, combineReducers, applyMiddleware } from "redux";
+import thunk from "redux-thunk";
+import expenses from "./expenses";
+import currentExpense from "./currentExpense";
 
 const reducer = combineReducers({
-    expenses,
-    currentExpense,
-})
+  expenses,
+  currentExpense
+});
 
-const store = createStore(reducer)
+const store = createStore(reducer, applyMiddleware(thunk));
 
-export default store
+export default store;
