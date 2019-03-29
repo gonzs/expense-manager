@@ -6,9 +6,10 @@ import store from "./reducers/index";
 import { BrowserRouter, Route, Redirect, Switch } from "react-router-dom";
 import ExpensesList from "./components/ExpensesList";
 import ExpenseDetail from "./components/ExpenseDetail";
-import { fetchAllExpenses } from "./actions";
+import { fetchAllExpensesAPI } from "./actions";
 
-store.dispatch(fetchAllExpenses());
+// Get all expenses from API
+store.dispatch(fetchAllExpensesAPI());
 
 const Root = (
   <Provider store={store}>

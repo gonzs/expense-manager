@@ -3,7 +3,8 @@ import { Table } from "semantic-ui-react";
 import PropTypes from "prop-types";
 import AddExpense from "../AddExpense";
 
-const Page = ({ expenses, onCreateExpense, goTo }) => {
+// Presentational Component for Expenses List
+const Page = ({ expenses, onSaveExpense, goTo }) => {
   let totalValue = 0;
   let incomeType = false;
   let expenseType = false;
@@ -11,11 +12,14 @@ const Page = ({ expenses, onCreateExpense, goTo }) => {
   return (
     <Fragment>
       <h1>Expenses</h1>
-      <AddExpense onCreateExpense={onCreateExpense} />
+
+      {/* Show Component for adding new expense */}
+      <AddExpense onSaveExpense={onSaveExpense} />
 
       <Table celled selectable>
         <Table.Header>
           <Table.Row>
+            <Table.HeaderCell>Id</Table.HeaderCell>
             <Table.HeaderCell>Category</Table.HeaderCell>
             <Table.HeaderCell>Text</Table.HeaderCell>
             <Table.HeaderCell>Value</Table.HeaderCell>
@@ -40,6 +44,7 @@ const Page = ({ expenses, onCreateExpense, goTo }) => {
                 negative={expenseType}
                 onClick={() => goTo(`/expenses/${expense.id}`)}
               >
+                <Table.Cell>{expense.id}</Table.Cell>
                 <Table.Cell>{expense.category}</Table.Cell>
                 <Table.Cell>{expense.text}</Table.Cell>
                 <Table.Cell>{expense.value}</Table.Cell>
@@ -50,6 +55,7 @@ const Page = ({ expenses, onCreateExpense, goTo }) => {
         <Table.Footer>
           <Table.Row>
             <Table.HeaderCell />
+            <Table.HeaderCell />
             <Table.HeaderCell textAlign="right">Total</Table.HeaderCell>
             <Table.HeaderCell>{totalValue}</Table.HeaderCell>
           </Table.Row>
@@ -59,6 +65,7 @@ const Page = ({ expenses, onCreateExpense, goTo }) => {
   );
 };
 
+// Props mapping
 Page.propTypes = {
   expenses: PropTypes.arrayOf(
     PropTypes.shape({
@@ -68,7 +75,7 @@ Page.propTypes = {
       value: PropTypes.number.isRequired
     }).isRequired
   ).isRequired,
-  onCreateExpense: PropTypes.func.isRequired,
+  onSaveExpense: PropTypes.func.isRequired,
   goTo: PropTypes.func.isRequired
 };
 

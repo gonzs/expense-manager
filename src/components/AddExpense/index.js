@@ -1,5 +1,5 @@
 import React from "react";
-import { Form, Input, Button, Icon, Select } from "semantic-ui-react";
+import { Form, Input, Button, Icon, Dropdown } from "semantic-ui-react";
 import PropTypes from "prop-types";
 
 const categoryOptions = [
@@ -7,14 +7,12 @@ const categoryOptions = [
   { key: "EX", value: "EX", text: "Expense" }
 ];
 
-const AddExpense = ({ onCreateExpense }) => {
+// Component for adding expenses
+const AddExpense = ({ onSaveExpense }) => {
   let text;
   let value;
   let category;
-
-  const getCategory = e => {
-    category = e.target.textContent;
-  };
+  let categoryText;
 
   return (
     <div>
@@ -25,21 +23,28 @@ const AddExpense = ({ onCreateExpense }) => {
 
           if (value.inputRef.value < 0) return;
 
-          if (!category.trim()) return;
+          categoryText = category.getSelectedItem().text;
+          if (!categoryText.trim()) return;
 
-          onCreateExpense(
-            category,
+          // action creator
+          onSaveExpense(
+            categoryText,
             text.inputRef.value,
             parseInt(value.inputRef.value)
           );
           text.inputRef.value = "";
           value.inputRef.value = "";
+          category.clearValue();
         }}
       >
-        <Select
+        <Dropdown
+          search
+          selection
           placeholder="Select category"
           options={categoryOptions}
-          onChange={getCategory}
+          ref={node => {
+            category = node;
+          }}
         />
         <Input
           placeholder="Description..."
@@ -64,8 +69,9 @@ const AddExpense = ({ onCreateExpense }) => {
   );
 };
 
+// Props Mapping
 AddExpense.propTypes = {
-  onCreateExpense: PropTypes.func.isRequired
+  onSaveExpense: PropTypes.func.isRequired
 };
 
 export default AddExpense;

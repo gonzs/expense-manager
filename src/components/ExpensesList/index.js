@@ -2,16 +2,17 @@ import React, { Component } from "react";
 import Page from "./page";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
-import { createExpense } from "../../actions/index";
+import { saveExpenseAPI } from "../../actions/index";
 
+// Container Component for Expenses List
 class ExpensesList extends Component {
   render() {
-    const { expenses, createExpense } = this.props;
+    const { expenses, saveExpense } = this.props;
 
     return (
       <Page
         expenses={expenses}
-        onCreateExpense={createExpense}
+        onSaveExpense={saveExpense}
         goTo={path => {
           this.props.history.push(path);
         }}
@@ -28,13 +29,14 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    createExpense: (category, text, value) => {
-      dispatch(createExpense(category, text, value));
+    saveExpense: (category, text, value) => {
+      dispatch(saveExpenseAPI(category, text, value));
     }
   };
 };
 
 export default withRouter(
+  // High order Component to get access to history properties
   connect(
     mapStateToProps,
     mapDispatchToProps

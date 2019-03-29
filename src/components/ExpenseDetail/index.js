@@ -1,9 +1,14 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
-import { findCurrentExpense } from "../../actions/index";
+import {
+  findExpenseState,
+  fetchExpenseAPI,
+  deleteExpenseAPI
+} from "../../actions/index";
 import Page from "./page";
 
+// Container Component for Expense Detail
 class ExpenseDetail extends Component {
   componentDidMount() {
     const { expenses } = this.props;
@@ -15,10 +20,15 @@ class ExpenseDetail extends Component {
 
   render() {
     const { currentExpense } = this.props;
+    const { deleteExpense } = this.props;
     return (
       <Page
         currentExpense={currentExpense}
         goTo={path => {
+          this.props.history.push(path);
+        }}
+        deleteExpense={(id, path) => {
+          deleteExpense(id);
           this.props.history.push(path);
         }}
       />
@@ -35,12 +45,23 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    findCurrentExpense: (id, expenses) =>
-      dispatch(findCurrentExpense(id, expenses))
+    findCurrentExpense: (id, expenses) => {
+      if (expenses.length > 0) {
+        // In case the expense is into the state
+        dispatch(findExpenseState(id, expenses));
+      } else {
+        // In case the expense is not into the state
+        dispatch(fetchExpenseAPI(id));
+      }
+    },
+    deleteExpense: id => {
+      dispatch(deleteExpenseAPI(id));
+    }
   };
 };
 
 export default withRouter(
+  // High order Component to get access to history properties
   connect(
     mapStateToProps,
     mapDispatchToProps

@@ -1,25 +1,17 @@
-import { ADD_EXPENSE, FETCH_EXPENSES } from "../actions/types";
+import { SAVE_EXPENSE, FETCH_EXPENSES, DELETE_EXPENSE } from "../actions/types";
 
-/*const defaultState = [
-  {
-    id: 1,
-    category: "Income",
-    text: "sueldo",
-    value: 1000
-  },
-  {
-    id: 2,
-    category: "Expense",
-    text: "kiosco",
-    value: 10
-  }
-];*/
+let defaultState = [
+  // Array of
+  // id
+  // category
+  // text
+  // value
+];
 
-let defaultState = [];
-
+// Reducer function for EXPENSES
 const expenses = (state = defaultState, action) => {
   switch (action.type) {
-    case ADD_EXPENSE:
+    case SAVE_EXPENSE: // Add a new expense
       return [
         ...state,
         {
@@ -29,10 +21,17 @@ const expenses = (state = defaultState, action) => {
           value: action.value
         }
       ];
-    case FETCH_EXPENSES:
+
+    case DELETE_EXPENSE: // Delete an expense
+      return state.filter(expense => {
+        return expense.id !== action.id;
+      });
+
+    case FETCH_EXPENSES: // Get all expenses
       return action.expenses;
     default:
       return state;
   }
 };
+
 export default expenses;

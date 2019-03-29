@@ -1,24 +1,34 @@
-import { ADD_EXPENSE, FETCH_EXPENSES, CURRENT_EXPENSE } from "./types";
+import {
+  SAVE_EXPENSE,
+  FETCH_EXPENSES,
+  CURRENT_EXPENSE,
+  DELETE_EXPENSE
+} from "./types";
+
 import axios from "axios";
 
-const apiUrl = "http://localhost:4000/api";
+const apiUrl = "http://localhost:4000/api"; // Server URL
 
-export const createExpense = (category, text, value) => {
+// Save expense API
+export const saveExpenseAPI = (category, text, value) => {
   return dispatch => {
     return axios
       .post(`${apiUrl}/save-expense`, { category, text, value })
       .then(response => {
-        dispatch(addExpense(response.data.expense));
+        // Trigger Save Expense action creator for Redux
+        dispatch(saveExpenseState(response.data.expense));
       })
-      .catch(error => {
-        throw error;
+      .catch(err => {
+        alert(err);
+        //throw err;
       });
   };
 };
 
-export const addExpense = data => {
+// Save Expense into State
+export const saveExpenseState = data => {
   return {
-    type: ADD_EXPENSE,
+    type: SAVE_EXPENSE,
     id: data.id,
     category: data.category,
     text: data.text,
@@ -26,31 +36,76 @@ export const addExpense = data => {
   };
 };
 
-export const fetchExpenses = expenses => {
+// Get all Expenses API
+export const fetchAllExpensesAPI = () => {
+  return dispatch => {
+    return axios
+      .get(`${apiUrl}/expenses`)
+      .then(response => {
+        // Trigger find all expenses action creator for redux
+        dispatch(findAllExpensesState(response.data.expenses));
+      })
+      .catch(err => {
+        alert(err);
+        //throw err;
+      });
+  };
+};
+
+// Get all Expenses into state
+export const findAllExpensesState = expenses => {
   return {
     type: FETCH_EXPENSES,
     expenses
   };
 };
 
-export const fetchAllExpenses = () => {
+// Get an Expense API
+export const fetchExpenseAPI = id => {
   return dispatch => {
     return axios
-      .get(`${apiUrl}/expenses`)
+      .get(`${apiUrl}/expense/${id}`)
       .then(response => {
-        dispatch(fetchExpenses(response.data.expenses));
+        let id = response.data.expense[0].id;
+        // Trigger find Expense action creator for redux
+        dispatch(findExpenseState(id, response.data.expense));
       })
       .catch(err => {
-        console.log(err);
-        throw err;
+        alert(err);
+        //throw err;
       });
   };
 };
 
-export const findCurrentExpense = (id, expenses) => {
+// Find Expense into State
+export const findExpenseState = (id, expenses) => {
   return {
     type: CURRENT_EXPENSE,
     id,
     expenses
+  };
+};
+
+// Delete Expense API
+export const deleteExpenseAPI = id => {
+  return dispatch => {
+    return axios
+      .delete(`${apiUrl}/expense/${id}`)
+      .then(response => {
+        // Trigger delete expense action creator for redux
+        dispatch(deleteExpense(response.data.expense.id));
+      })
+      .catch(err => {
+        alert(err);
+        //throw err;
+      });
+  };
+};
+
+// Delete Expense into State
+export const deleteExpense = id => {
+  return {
+    type: DELETE_EXPENSE,
+    id
   };
 };
